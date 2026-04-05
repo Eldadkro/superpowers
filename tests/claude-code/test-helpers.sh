@@ -150,7 +150,7 @@ create_test_plan() {
     cat > "$plan_file" <<'EOF'
 # Test Implementation Plan
 
-## Task 1: Create Hello Function
+## Step 1: Create Hello Function
 
 Create a simple hello function that returns "Hello, World!".
 
@@ -167,7 +167,7 @@ export function hello() {
 
 **Verification:** `npm test`
 
-## Task 2: Create Goodbye Function
+## Step 2: Create Goodbye Function
 
 Create a goodbye function that takes a name and returns a goodbye message.
 

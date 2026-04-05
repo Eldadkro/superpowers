@@ -30,16 +30,16 @@ cd "$PROJECT_DIR"
 cat > "$PROJECT_DIR/docs/plans/auth-system.md" << 'EOF'
 # Auth System Implementation Plan
 
-## Task 1: Add User Model
+## Step 1: Add User Model
 Create user model with email and password fields.
 
-## Task 2: Add Auth Routes
+## Step 2: Add Auth Routes
 Create login and register endpoints.
 
-## Task 3: Add JWT Middleware
+## Step 3: Add JWT Middleware
 Protect routes with JWT validation.
 
-## Task 4: Write Tests
+## Step 4: Write Tests
 Add comprehensive test coverage.
 EOF
 

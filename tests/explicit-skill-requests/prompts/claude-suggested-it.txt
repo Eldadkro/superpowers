@@ -1,11 +1,15 @@
 [Previous assistant message]:
 Plan complete and saved to docs/plans/auth-system.md.
 
-Two execution options:
-1. Subagent-Driven (this session) - I dispatch a fresh subagent per task, review between tasks, fast iteration within this conversation
-2. Parallel Session (separate) - Open a new Claude Code session with the execute-plan skill, batch execution with review checkpoints
+Next step is iterative execution using executing-plans.
 
-Which approach do you want to use for implementation?
+Execution model:
+- Work step-by-step through the plan
+- Stop at meaningful checkpoints
+- If context gets crowded or the session ends, resume from the first unchecked step
+- Before resuming, re-read the plan and only the files listed for the current step
+
+Ready to continue?
 
 [Your response]:
 executing-plans, please
