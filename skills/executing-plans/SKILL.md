@@ -1,40 +1,54 @@
 ---
 name: executing-plans
-description: Use when you have a written implementation plan to execute in a separate session with review checkpoints
+description: Use when you have a written implementation plan and need to execute it iteratively, resume after context resets, and continue from the first incomplete meaningful step
 ---
 
 # Executing Plans
 
 ## Overview
 
-Load plan, review critically, execute all tasks, report when complete.
+Load plan, review critically, execute it step-by-step, and resume cleanly from the first incomplete meaningful step whenever context resets.
 
 **Announce at start:** "I'm using the executing-plans skill to implement this plan."
-
-**Note:** Tell your human partner that Superpowers works much better with access to subagents. The quality of its work will be significantly higher if run on a platform with subagent support (such as Claude Code or Codex). If subagents are available, use superpowers:subagent-driven-development instead of this skill.
 
 ## The Process
 
 ### Step 1: Load and Review Plan
 1. Read plan file
 2. Review critically - identify any questions or concerns about the plan
-3. If concerns: Raise them with your human partner before starting
-4. If no concerns: Create TodoWrite and proceed
+3. Identify the first incomplete top-level step
+4. Read the files listed for that step and any narrowly relevant supporting files
+5. If concerns: Raise them with your human partner before starting
+6. If no concerns: Create TodoWrite and proceed
 
-### Step 2: Execute Tasks
+### Step 2: Execute Iteratively
 
-For each task:
+For each top-level step:
 1. Mark as in_progress
-2. Follow each step exactly (plan has bite-sized steps)
+2. Follow the checklist items exactly
 3. Run verifications as specified
-4. Mark as completed
+4. Mark the checklist items complete in the plan
+5. Stop at the checkpoint for that step
 
 ### Step 3: Complete Development
 
-After all tasks complete and verified:
+After all top-level steps complete and are verified:
 - Announce: "I'm using the finishing-a-development-branch skill to complete this work."
 - **REQUIRED SUB-SKILL:** Use superpowers:finishing-a-development-branch
 - Follow that skill to verify tests, present options, execute choice
+
+## Resuming After Context Reset
+
+When context is crowded, the session ends, or you intentionally pause:
+
+1. Stop at the current step boundary, not mid-edit if avoidable
+2. Ensure the plan reflects which checklist items and top-level steps are complete
+3. On resume, re-read the full plan header and the current top-level step
+4. Re-read only the files listed for that step plus any directly relevant neighbors
+5. Check git status and the latest checkpoint commit to confirm actual state
+6. Continue from the first unchecked checklist item in the first incomplete top-level step
+
+Do not rely on memory. Reconstruct state from the plan, the files, and git.
 
 ## When to Stop and Ask for Help
 
@@ -56,7 +70,9 @@ After all tasks complete and verified:
 
 ## Remember
 - Review plan critically first
-- Follow plan steps exactly
+- Execute one meaningful top-level step at a time
+- Re-read plan and relevant files on resume instead of relying on memory
+- Keep the plan state accurate so the next session can restart safely
 - Don't skip verifications
 - Reference skills when plan says to
 - Stop when blocked, don't guess

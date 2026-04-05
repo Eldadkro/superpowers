@@ -1,18 +1,18 @@
 ---
 name: requesting-code-review
-description: Use when completing tasks, implementing major features, or before merging to verify work meets requirements
+description: Use when finishing a meaningful task, completing a coherent chunk of work, implementing a major feature, or before merging to verify work meets requirements
 ---
 
 # Requesting Code Review
 
-Dispatch superpowers:code-reviewer subagent to catch issues before they cascade. The reviewer gets precisely crafted context for evaluation — never your session's history. This keeps the reviewer focused on the work product, not your thought process, and preserves your own context for continued work.
+Dispatch superpowers:code-reviewer subagent after meaningful completed work to catch issues before they compound. The reviewer gets precisely crafted context for evaluation — never your session's history. This keeps the reviewer focused on the work product, not your thought process, and preserves your own context for continued work.
 
-**Core principle:** Review early, review often.
+**Core principle:** Review at meaningful completion points, not after every tiny step.
 
 ## When to Request Review
 
 **Mandatory:**
-- After each task in subagent-driven development
+- After finishing a meaningful task or coherent chunk of work
 - After completing major feature
 - Before merge to main
 
@@ -20,6 +20,11 @@ Dispatch superpowers:code-reviewer subagent to catch issues before they cascade.
 - When stuck (fresh perspective)
 - Before refactoring (baseline check)
 - After fixing complex bug
+
+**Do NOT request review:**
+- In the middle of a task with no stable checkpoint yet
+- After every micro-step just because you touched code
+- So often that review interrupts implementation flow without adding signal
 
 ## How to Request
 
@@ -51,14 +56,14 @@ Use Task tool with superpowers:code-reviewer type, fill template at `code-review
 ```
 [Just completed Task 2: Add verification function]
 
-You: Let me request code review before proceeding.
+You: I've finished a meaningful chunk of work. Let me request code review before I continue.
 
 BASE_SHA=$(git log --oneline | grep "Task 1" | head -1 | awk '{print $1}')
 HEAD_SHA=$(git rev-parse HEAD)
 
 [Dispatch superpowers:code-reviewer subagent]
   WHAT_WAS_IMPLEMENTED: Verification and repair functions for conversation index
-  PLAN_OR_REQUIREMENTS: Task 2 from docs/superpowers/plans/deployment-plan.md
+  PLAN_OR_REQUIREMENTS: Step 2 from docs/plans/deployment-plan.md
   BASE_SHA: a7981ec
   HEAD_SHA: 3df7661
   DESCRIPTION: Added verifyIndex() and repairIndex() with 4 issue types
@@ -77,15 +82,16 @@ You: [Fix progress indicators]
 ## Integration with Workflows
 
 **Subagent-Driven Development:**
-- Review after EACH task
+- Review when a task or small cluster of closely-related tasks produces a meaningful, reviewable result
 - Catch issues before they compound
-- Fix before moving to next task
+- Fix before moving to the next meaningful milestone
 
 **Executing Plans:**
 - Review after each batch (3 tasks)
 - Get feedback, apply, continue
 
 **Ad-Hoc Development:**
+- Review after meaningful completed work
 - Review before merge
 - Review when stuck
 
@@ -95,6 +101,7 @@ You: [Fix progress indicators]
 - Skip review because "it's simple"
 - Ignore Critical issues
 - Proceed with unfixed Important issues
+- Trigger review mechanically after every tiny step
 - Argue with valid technical feedback
 
 **If reviewer wrong:**

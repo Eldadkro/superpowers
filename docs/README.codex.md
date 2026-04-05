@@ -7,7 +7,7 @@ Guide for using Superpowers with OpenAI Codex via native skill discovery.
 Tell Codex:
 
 ```
-Fetch and follow instructions from https://raw.githubusercontent.com/obra/superpowers/refs/heads/main/.codex/INSTALL.md
+Fetch and follow instructions from https://raw.githubusercontent.com/Eldadkro/superpowers/refs/heads/main/.codex/INSTALL.md
 ```
 
 ## Manual Installation
@@ -21,7 +21,7 @@ Fetch and follow instructions from https://raw.githubusercontent.com/obra/superp
 
 1. Clone the repo:
    ```bash
-   git clone https://github.com/obra/superpowers.git ~/.codex/superpowers
+   git clone https://github.com/Eldadkro/superpowers.git ~/.codex/superpowers
    ```
 
 2. Create the skills symlink:
@@ -32,7 +32,7 @@ Fetch and follow instructions from https://raw.githubusercontent.com/obra/superp
 
 3. Restart Codex.
 
-4. **For subagent skills** (optional): Skills like `dispatching-parallel-agents` and `subagent-driven-development` require Codex's multi-agent feature. Add to your Codex config:
+4. **For parallel-agent skills** (optional): Skills like `dispatching-parallel-agents` require Codex's multi-agent feature. Add to your Codex config:
    ```toml
    [features]
    multi_agent = true
@@ -122,5 +122,5 @@ Junctions normally work without special permissions. If creation fails, try runn
 
 ## Getting Help
 
-- Report issues: https://github.com/obra/superpowers/issues
-- Main documentation: https://github.com/obra/superpowers
+- Report issues: https://github.com/Eldadkro/superpowers/issues
+- Main documentation: https://github.com/Eldadkro/superpowers

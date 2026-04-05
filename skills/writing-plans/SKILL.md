@@ -7,7 +7,7 @@ description: Use when you have a spec or requirements for a multi-step task, bef
 
 ## Overview
 
-Write comprehensive implementation plans assuming the engineer has zero context for our codebase and questionable taste. Document everything they need to know: which files to touch for each task, code, testing, docs they might need to check, how to test it. Give them the whole plan as bite-sized tasks. DRY. YAGNI. TDD. Frequent commits.
+Write comprehensive implementation plans assuming the engineer has zero context for our codebase and questionable taste. Document everything they need to know: which files to touch for each step, code, testing, docs they might need to check, how to test it, and how to resume cleanly after a context reset. DRY. YAGNI. TDD. Frequent commits.
 
 Assume they are a skilled developer, but know almost nothing about our toolset or problem domain. Assume they don't know good test design very well.
 
@@ -15,7 +15,7 @@ Assume they are a skilled developer, but know almost nothing about our toolset o
 
 **Context:** This should be run in a dedicated worktree (created by brainstorming skill).
 
-**Save plans to:** `docs/superpowers/plans/YYYY-MM-DD-<feature-name>.md`
+**Save plans to:** `docs/plans/YYYY-MM-DD-<feature-name>.md`
 - (User preferences for plan location override this default)
 
 ## Scope Check
@@ -24,23 +24,33 @@ If the spec covers multiple independent subsystems, it should have been broken i
 
 ## File Structure
 
-Before defining tasks, map out which files will be created or modified and what each one is responsible for. This is where decomposition decisions get locked in.
+Before defining steps, map out which files will be created or modified and what each one is responsible for. This is where decomposition decisions get locked in.
 
 - Design units with clear boundaries and well-defined interfaces. Each file should have one clear responsibility.
 - You reason best about code you can hold in context at once, and your edits are more reliable when files are focused. Prefer smaller, focused files over large ones that do too much.
 - Files that change together should live together. Split by responsibility, not by technical layer.
 - In existing codebases, follow established patterns. If the codebase uses large files, don't unilaterally restructure - but if a file you're modifying has grown unwieldy, including a split in the plan is reasonable.
 
-This structure informs the task decomposition. Each task should produce self-contained changes that make sense independently.
+This structure informs the step decomposition. Each step should produce a self-contained, meaningful change that makes sense independently and moves the feature closer to completion.
 
-## Bite-Sized Task Granularity
+## Meaningful Step Granularity
 
-**Each step is one action (2-5 minutes):**
-- "Write the failing test" - step
-- "Run it to make sure it fails" - step
-- "Implement the minimal code to make the test pass" - step
-- "Run the tests and make sure they pass" - step
-- "Commit" - step
+**Each top-level step is a meaningful increment:**
+- A step should produce a reviewable, testable change
+- A step should be a stepping stone toward the full workload, not a random micro-action
+- A step may contain several implementation actions, but they must belong to one coherent outcome
+- A future agent should be able to resume from the next unchecked step without reconstructing hidden context
+
+**Good step boundaries:**
+- "Add parser support for config headers"
+- "Persist parsed headers in the domain model"
+- "Expose headers in the CLI output"
+
+**Bad step boundaries:**
+- "Open file"
+- "Write one helper"
+- "Run a single command"
+- "Think about edge cases"
 
 ## Plan Document Header
 
@@ -49,7 +59,7 @@ This structure informs the task decomposition. Each task should produce self-con
 ```markdown
 # [Feature Name] Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan iteratively. Steps use checkbox (`- [ ]`) syntax for tracking so work can resume cleanly after context resets.
 
 **Goal:** [One sentence describing what this builds]
 
@@ -60,17 +70,24 @@ This structure informs the task decomposition. Each task should produce self-con
 ---
 ```
 
-## Task Structure
+## Step Structure
 
 ````markdown
-### Task N: [Component Name]
+### Step N: [Meaningful Outcome]
 
 **Files:**
 - Create: `exact/path/to/file.py`
 - Modify: `exact/path/to/existing.py:123-145`
 - Test: `tests/exact/path/to/test.py`
 
-- [ ] **Step 1: Write the failing test**
+**Why this step matters:** [One sentence about how this advances the feature]
+
+**Before editing, re-read:**
+- `exact/path/to/file.py`
+- `tests/exact/path/to/test.py`
+- [Any other narrowly relevant file]
+
+- [ ] **Write the failing test**
 
 ```python
 def test_specific_behavior():
@@ -78,29 +95,36 @@ def test_specific_behavior():
     assert result == expected
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [ ] **Run test to verify it fails**
 
 Run: `pytest tests/path/test.py::test_name -v`
 Expected: FAIL with "function not defined"
 
-- [ ] **Step 3: Write minimal implementation**
+- [ ] **Write minimal implementation**
 
 ```python
 def function(input):
     return expected
 ```
 
-- [ ] **Step 4: Run test to verify it passes**
+- [ ] **Run test to verify it passes**
 
 Run: `pytest tests/path/test.py::test_name -v`
 Expected: PASS
 
-- [ ] **Step 5: Commit**
+- [ ] **Run broader verification for this step**
+
+Run: `pytest tests/path/test.py -v`
+Expected: PASS
+
+- [ ] **Commit checkpoint**
 
 ```bash
 git add tests/path/test.py src/path/file.py
 git commit -m "feat: add specific feature"
 ```
+
+**Resume note:** After a context reset, find the first unchecked step, re-read the files listed under "Before editing, re-read", confirm the last completed checkpoint in git and the plan, then continue.
 ````
 
 ## No Placeholders
@@ -109,7 +133,7 @@ Every step must contain the actual content an engineer needs. These are **plan f
 - "TBD", "TODO", "implement later", "fill in details"
 - "Add appropriate error handling" / "add validation" / "handle edge cases"
 - "Write tests for the above" (without actual test code)
-- "Similar to Task N" (repeat the code — the engineer may be reading tasks out of order)
+- "Similar to Step N" (repeat the code — the engineer may be resuming out of order)
 - Steps that describe what to do without showing how (code blocks required for code steps)
 - References to types, functions, or methods not defined in any task
 
@@ -117,36 +141,35 @@ Every step must contain the actual content an engineer needs. These are **plan f
 - Exact file paths always
 - Complete code in every step — if a step changes code, show the code
 - Exact commands with expected output
+- Make each top-level step a meaningful, reviewable increment
+- Include enough resume context that a later session can continue safely
 - DRY, YAGNI, TDD, frequent commits
 
 ## Self-Review
 
 After writing the complete plan, look at the spec with fresh eyes and check the plan against it. This is a checklist you run yourself — not a subagent dispatch.
 
-**1. Spec coverage:** Skim each section/requirement in the spec. Can you point to a task that implements it? List any gaps.
+**1. Spec coverage:** Skim each section/requirement in the spec. Can you point to a step that implements it? List any gaps.
 
 **2. Placeholder scan:** Search your plan for red flags — any of the patterns from the "No Placeholders" section above. Fix them.
 
-**3. Type consistency:** Do the types, method signatures, and property names you used in later tasks match what you defined in earlier tasks? A function called `clearLayers()` in Task 3 but `clearFullLayers()` in Task 7 is a bug.
+**3. Type consistency:** Do the types, method signatures, and property names you used in later steps match what you defined in earlier steps? A function called `clearLayers()` in Step 3 but `clearFullLayers()` in Step 7 is a bug.
 
-If you find issues, fix them inline. No need to re-review — just fix and move on. If you find a spec requirement with no task, add the task.
+**4. Resume safety:** If a new session starts at Step N, can it identify the first incomplete step, re-read a small set of relevant files, and continue without reconstructing hidden reasoning? If not, add the missing context inline.
+
+If you find issues, fix them inline. No need to re-review — just fix and move on. If you find a spec requirement with no step, add the step.
 
 ## Execution Handoff
 
-After saving the plan, offer execution choice:
+After saving the plan, hand off to iterative execution:
 
-**"Plan complete and saved to `docs/superpowers/plans/<filename>.md`. Two execution options:**
+**"Plan complete and saved to `docs/plans/<filename>.md`. Next step is iterative execution using `superpowers:executing-plans`.**
 
-**1. Subagent-Driven (recommended)** - I dispatch a fresh subagent per task, review between tasks, fast iteration
+**Execution model:**
+- Work step-by-step through the plan
+- Stop at meaningful checkpoints
+- If context gets crowded or the session ends, resume from the first unchecked step
+- Before resuming, re-read the plan and only the files listed for the current step
 
-**2. Inline Execution** - Execute tasks in this session using executing-plans, batch execution with checkpoints
-
-**Which approach?"**
-
-**If Subagent-Driven chosen:**
-- **REQUIRED SUB-SKILL:** Use superpowers:subagent-driven-development
-- Fresh subagent per task + two-stage review
-
-**If Inline Execution chosen:**
 - **REQUIRED SUB-SKILL:** Use superpowers:executing-plans
-- Batch execution with checkpoints for review
+**Ready to continue?"**
