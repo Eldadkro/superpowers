@@ -1,6 +1,6 @@
 # Copilot CLI Tool Mapping
 
-Skills use Claude Code tool names. When you encounter these in a skill, use your platform equivalent:
+Skills may reference canonical tool concepts. When you encounter these in a skill, use the Copilot CLI equivalent:
 
 | Skill references | Copilot CLI equivalent |
 |-----------------|----------------------|
@@ -23,7 +23,7 @@ Skills use Claude Code tool names. When you encounter these in a skill, use your
 
 Copilot CLI's `task` tool accepts an `agent_type` parameter:
 
-| Claude Code agent | Copilot CLI equivalent |
+| Named agent concept | Copilot CLI equivalent |
 |-------------------|----------------------|
 | `general-purpose` | `"general-purpose"` |
 | `Explore` | `"explore"` |
@@ -31,7 +31,7 @@ Copilot CLI's `task` tool accepts an `agent_type` parameter:
 
 ## Async shell sessions
 
-Copilot CLI supports persistent async shell sessions, which have no direct Claude Code equivalent:
+Copilot CLI supports persistent async shell sessions, which are not assumed by the shared skill language:
 
 | Tool | Purpose |
 |------|---------|

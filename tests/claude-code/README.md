@@ -1,10 +1,10 @@
-# Claude Code Skills Tests
+# Claude Code Compatibility Tests
 
-Automated tests for superpowers skills using Claude Code CLI.
+Automated compatibility tests for superpowers skills using the Claude Code CLI.
 
 ## Overview
 
-This test suite verifies that skills are loaded correctly and Claude follows them as expected. Tests invoke Claude Code in headless mode (`claude -p`) and verify the behavior.
+This test suite verifies Claude Code compatibility: skills load correctly, trigger when expected, and follow the required workflow in headless mode (`claude -p`).
 
 ## Requirements
 
@@ -75,7 +75,7 @@ echo "=== All tests passed ==="
 
 ## Current Tests
 
-The Claude Code test harness currently provides shared utilities in [`test-helpers.sh`](/home/eldadk/projects/superpowers/tests/claude-code/test-helpers.sh).
+The Claude Code compatibility harness currently provides shared utilities in [`test-helpers.sh`](/home/eldadk/projects/superpowers/tests/claude-code/test-helpers.sh).
 
 The old subagent-driven test suite was removed along with that workflow. Current automated coverage for active workflow behavior lives primarily under:
 
@@ -99,7 +99,7 @@ The old subagent-driven test suite was removed along with that workflow. Current
 
 ## Debugging Failed Tests
 
-With `--verbose`, you'll see full Claude output from any registered Claude Code test. Without verbose, only failures show output.
+With `--verbose`, you'll see full Claude output from any registered compatibility test. Without verbose, only failures show output.
 
 ## CI/CD Integration
 

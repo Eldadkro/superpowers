@@ -1,6 +1,6 @@
-# Cross-Platform Polyglot Hooks for Claude Code
+# Cross-Platform Polyglot Hooks for Claude Code Compatibility
 
-Claude Code plugins need hooks that work on Windows, macOS, and Linux. This document explains the polyglot wrapper technique that makes this possible.
+Claude Code compatibility requires hooks that work on Windows, macOS, and Linux. This document explains the polyglot wrapper technique that makes this possible.
 
 ## The Problem
 

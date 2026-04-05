@@ -2,7 +2,7 @@
 # Test skill triggering with naive prompts
 # Usage: ./run-test.sh <skill-name> <prompt-file>
 #
-# Tests whether Claude triggers a skill based on a natural prompt
+# Claude Code compatibility check: tests whether a skill triggers based on a natural prompt
 # (without explicitly mentioning the skill)
 
 set -e
@@ -39,7 +39,7 @@ echo ""
 # Copy prompt for reference
 cp "$PROMPT_FILE" "$OUTPUT_DIR/prompt.txt"
 
-# Run Claude
+# Run the Claude Code compatibility harness
 LOG_FILE="$OUTPUT_DIR/claude-output.json"
 cd "$OUTPUT_DIR"
 
@@ -55,7 +55,7 @@ timeout 300 claude -p "$PROMPT" \
 echo ""
 echo "=== Results ==="
 
-# Check if skill was triggered (look for Skill tool invocation)
+# Check if skill was triggered (look for Claude Code Skill tool invocation)
 # In stream-json, tool invocations have "name":"Skill" (not "tool":"Skill")
 # Match either "skill":"skillname" or "skill":"namespace:skillname"
 SKILL_PATTERN='"skill":"([^"]*:)?'"${SKILL_NAME}"'"'

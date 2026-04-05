@@ -4,7 +4,7 @@ This document describes how to test Superpowers skills, especially the trigger a
 
 ## Overview
 
-Testing workflow skills requires running actual Claude Code sessions in headless mode and verifying their behavior through session transcripts.
+Testing workflow skills requires running real harness sessions and verifying their behavior through session transcripts or equivalent logs. This repository's strongest automated coverage currently comes from the Claude Code compatibility harness.
 
 ## Test Structure
 
@@ -21,7 +21,7 @@ tests/
 ### Requirements
 
 - Must run from the **superpowers plugin directory** (not from temp directories)
-- Claude Code must be installed and available as `claude` command
+- Claude Code must be installed and available as `claude` command for the compatibility suite in `tests/claude-code/`
 - Local dev marketplace must be enabled: `"superpowers@superpowers-dev": true` in `~/.claude/settings.json`
 
 ## Current Focus
@@ -30,7 +30,7 @@ Current automated coverage in this repository focuses on:
 
 - skill triggering
 - explicit skill requests
-- lightweight Claude Code skill checks
+- lightweight Claude Code compatibility checks
 
 The previous subagent-driven integration workflow is no longer part of the primary development path.
 
@@ -38,7 +38,7 @@ The previous subagent-driven integration workflow is no longer part of the prima
 
 ### Usage
 
-Analyze token usage from any Claude Code session:
+Analyze token usage from any Claude Code compatibility session:
 
 ```bash
 python3 tests/claude-code/analyze-token-usage.py ~/.claude/projects/<project-dir>/<session-id>.jsonl
@@ -58,7 +58,7 @@ ls -lt "$SESSION_DIR"/*.jsonl | head -5
 
 ### What It Shows
 
-- **Main session usage**: Token usage by the coordinator (you or main Claude instance)
+- **Main session usage**: Token usage by the coordinator (you or the main harness session)
 - **Per-subagent breakdown**: Each Task invocation with:
   - Agent ID
   - Description (extracted from prompt)
@@ -88,7 +88,7 @@ ls -lt "$SESSION_DIR"/*.jsonl | head -5
 
 ### Permission Errors
 
-**Problem**: Claude blocked from writing files or accessing directories
+**Problem**: The compatibility harness is blocked from writing files or accessing directories
 
 **Solutions**:
 1. Use `--permission-mode bypassPermissions` flag
@@ -131,7 +131,7 @@ trap "cleanup_test_project $TEST_PROJECT" EXIT
 # Set up test files...
 cd "$TEST_PROJECT"
 
-# Run Claude with skill
+# Run the compatibility harness with a skill
 PROMPT="Your test prompt here"
 cd "$SCRIPT_DIR/../.." && timeout 1800 claude -p "$PROMPT" \
   --allowed-tools=all \

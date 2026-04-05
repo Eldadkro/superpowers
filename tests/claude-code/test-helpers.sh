@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Helper functions for Claude Code skill tests
+# Helper functions for Claude Code compatibility tests
 
-# Run Claude Code with a prompt and capture output
+# Run the Claude Code compatibility harness with a prompt and capture output
 # Usage: run_claude "prompt text" [timeout_seconds] [allowed_tools]
 run_claude() {
     local prompt="$1"
@@ -15,7 +15,7 @@ run_claude() {
         cmd="$cmd --allowed-tools=$allowed_tools"
     fi
 
-    # Run Claude in headless mode with timeout
+    # Run the compatibility harness in headless mode with timeout
     if timeout "$timeout" bash -c "$cmd" > "$output_file" 2>&1; then
         cat "$output_file"
         rm -f "$output_file"

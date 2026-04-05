@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
-# Test runner for Claude Code skills
-# Tests skills by invoking Claude Code CLI and verifying behavior
+# Test runner for Claude Code compatibility coverage
+# Tests skills by invoking Claude Code CLI and verifying compatibility behavior
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$SCRIPT_DIR"
 
 echo "========================================"
-echo " Claude Code Skills Test Suite"
+echo " Claude Code Compatibility Test Suite"
 echo "========================================"
 echo ""
 echo "Repository: $(cd ../.. && pwd)"
@@ -15,7 +15,7 @@ echo "Test time: $(date)"
 echo "Claude version: $(claude --version 2>/dev/null || echo 'not found')"
 echo ""
 
-# Check if Claude Code is available
+# Check if Claude Code compatibility harness is available
 if ! command -v claude &> /dev/null; then
     echo "ERROR: Claude Code CLI not found"
     echo "Install Claude Code first: https://code.claude.com"
@@ -57,7 +57,7 @@ while [[ $# -gt 0 ]]; do
             echo "  --help, -h           Show this help"
             echo ""
             echo "Tests:"
-            echo "  (no standalone Claude Code skill tests currently registered)"
+            echo "  (no standalone Claude Code compatibility tests currently registered)"
             exit 0
             ;;
         *)

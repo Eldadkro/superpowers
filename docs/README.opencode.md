@@ -97,7 +97,7 @@ The plugin does two things:
 
 ### Tool Mapping
 
-Skills written for Claude Code are automatically adapted for OpenCode:
+Superpowers skills use shared workflow concepts that OpenCode maps to native tools:
 
 - `TodoWrite` → `todowrite`
 - `Task` with subagents → OpenCode's `@mention` system

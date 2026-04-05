@@ -1,6 +1,6 @@
 # Codex Tool Mapping
 
-Skills use Claude Code tool names. When you encounter these in a skill, use your platform equivalent:
+Skills may reference canonical tool concepts. When you encounter these in a skill, use the Codex equivalent:
 
 | Skill references | Codex equivalent |
 |-----------------|------------------|
@@ -26,7 +26,7 @@ This enables `spawn_agent`, `wait`, and `close_agent` for skills like `dispatchi
 
 ## Named agent dispatch
 
-Claude Code skills reference named agent types like `superpowers:code-reviewer`.
+Some skills reference named agent types like `superpowers:code-reviewer`.
 Codex does not have a named agent registry — `spawn_agent` creates generic agents
 from built-in roles (`default`, `explorer`, `worker`).
 
