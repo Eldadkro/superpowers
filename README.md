@@ -48,6 +48,16 @@ Fetch and follow instructions from https://raw.githubusercontent.com/Eldadkro/su
 
 **Detailed docs:** [docs/README.opencode.md](docs/README.opencode.md)
 
+### Pi
+
+Tell Pi:
+
+```text
+Fetch and follow instructions from https://raw.githubusercontent.com/Eldadkro/superpowers/refs/heads/main/.pi/INSTALL.md
+```
+
+**Detailed docs:** [docs/README.pi.md](docs/README.pi.md)
+
 ### Claude Code Official Marketplace
 
 Superpowers is available via the [official Claude plugin marketplace](https://claude.com/plugins/superpowers)
@@ -158,6 +168,7 @@ Start a new session in your chosen platform and ask for something that should tr
 Platform guides:
 - [docs/README.codex.md](docs/README.codex.md)
 - [docs/README.opencode.md](docs/README.opencode.md)
+- [docs/README.pi.md](docs/README.pi.md)
 
 ## Contributing
 
@@ -172,10 +183,11 @@ See `skills/writing-skills/SKILL.md` for the complete guide.
 
 ## Updating
 
-Skills update automatically when you update the plugin:
+Update using your harness's native mechanism, for example:
 
 ```bash
 /plugin update superpowers
+pi update https://github.com/Eldadkro/superpowers
 ```
 
 ## License
