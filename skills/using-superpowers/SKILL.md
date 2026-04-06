@@ -47,6 +47,24 @@ Skills may reference canonical tool concepts such as skill loading, task trackin
 
 **Invoke relevant or requested skills BEFORE any response or action.** Even a 1% chance a skill might apply means that you should invoke the skill to check. If an invoked skill turns out to be wrong for the situation, you don't need to use it.
 
+## Small Menial Work Exception
+
+If the user asks for **small menial work** that is obviously minor — roughly **1-2 small file edits** with no meaningful design work, architecture choice, or feature shaping — you may skip the heavyweight upfront workflow:
+
+- skip `brainstorming`
+- skip `writing-plans`
+- skip `using-git-worktrees`
+- do the work directly in the **current worktree**
+
+This exception is narrow. It does **not** waive any other applicable skills. If the task is a bug, use `systematic-debugging`. If it is a feature or bugfix, use `test-driven-development`. If you are editing skills, use `writing-skills`. Before claiming success, use `verification-before-completion`.
+
+**Red flags — do NOT use this exception when:**
+- the task changes behavior in a non-obvious way
+- the task needs design discussion or trade-offs
+- the task touches more than 1-2 files or requires coordinated edits
+- the task introduces new functionality, refactoring, or architecture changes
+- you are calling it "small" mostly to avoid process
+
 ```dot
 digraph skill_flow {
     "User message received" [shape=doublecircle];
@@ -84,6 +102,7 @@ These thoughts mean STOP—you're rationalizing:
 | Thought | Reality |
 |---------|---------|
 | "This is just a simple question" | Questions are tasks. Check for skills. |
+| "This is tiny, so I can skip all skills" | Tiny work may skip only the heavyweight upfront workflow, not other applicable skills. |
 | "I need more context first" | Skill check comes BEFORE clarifying questions. |
 | "Let me explore the codebase first" | Skills tell you HOW to explore. Check first. |
 | "I can check git/files quickly" | Files lack conversation context. Check for skills. |
