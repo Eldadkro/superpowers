@@ -29,38 +29,51 @@ Fetch and follow instructions from https://raw.githubusercontent.com/Eldadkro/su
    /reload
    ```
 
-That's it. Pi will load:
-- the Superpowers skills from this repository's `skills/` directory
-- the Pi bootstrap extension from `extensions/pi-superpowers.ts`
+That's it. Pi will load the mode-aware Superpowers extension from `extensions/pi-superpowers.ts`.
 
 ## How It Works
 
-The Pi package provides two things:
+The Pi package provides a mode-gated Superpowers experience:
 
-1. **Skills** - Superpowers skills are installed as normal Pi skills.
-2. **Bootstrap extension** - On the first prompt of each session, the extension injects the `using-superpowers` instructions so Pi starts with the same skill-discipline behavior expected on other harnesses.
+1. **Normal mode** — default for new sessions. No Superpowers bootstrap is injected and Superpowers skills are not exposed.
+2. **Super mode** — enabled with `/super`. The extension exposes the repository `skills/` directory, injects the `using-superpowers` bootstrap instructions, and shows `SUPER ON`.
+
+Mode behavior:
+- `/super` enables Super mode for the current session
+- `/normal` returns the session to normal mode
+- `/reload` preserves the current mode
+- `/new` starts a fresh session in normal mode
 
 ## Tool Mapping
 
 When Superpowers skills mention tools from other harnesses, use the Pi equivalent:
 
-- `Skill` tool → Pi skill loading / `/skill:name`
+- `Skill` tool → Pi skill loading / `/skill:name` when Super mode is active
 - `Read`, `Write`, `Edit`, `Bash` → Pi's native tools
 - `TodoWrite` → Track progress in the plan file or a `TODO.md` file
 - `Task` with subagents → No built-in equivalent in Pi; execute sequentially unless you installed a Pi extension/package that adds subagents
 
 ## Usage
 
-Ask Pi to do normal work such as:
-- "Help me plan this feature"
-- "Debug this failing test"
-- "Use superpowers brainstorming"
-
-If you want to force-load a specific skill manually, use:
+Enable Superpowers for the current session:
 
 ```text
-/skill:brainstorming
+/super
 ```
+
+Enable Superpowers and immediately give Pi a task:
+
+```text
+/super debug this failing test
+```
+
+Return to normal mode:
+
+```text
+/normal
+```
+
+In normal mode, Superpowers skills are intentionally unavailable. Enable Super mode first if you want Pi to use them.
 
 ## Updating
 
@@ -82,16 +95,16 @@ pi remove https://github.com/Eldadkro/superpowers
 
 ## Troubleshooting
 
-### Skills not showing up
+### Superpowers skills not showing up
 
 1. Run `pi list` and confirm the package is installed
-2. Run `/reload`
-3. Start a new Pi session
+2. Make sure you are in Super mode by running `/super`
+3. Run `/reload` if you just updated the package
 
-### Bootstrap behavior not appearing
+### Super mode behavior not appearing
 
 1. Make sure the package installed successfully: `pi list`
-2. Start a fresh session after install
+2. Run `/super` and confirm `SUPER ON` appears
 3. Check that Pi supports extensions in your installed version
 
 ## Getting Help
